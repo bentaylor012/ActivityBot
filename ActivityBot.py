@@ -13,49 +13,49 @@ import time
 import asyncio
 import json
 from json.decoder import JSONDecodeError
+import requests
 
+logs={}
 
-
-TOKEN = '' #add token here
-Sid = #add server id here
+TOKEN = 'enter-token-here'
+Sid = ''#enter server id here
 
 client=commands.Bot(command_prefix = '.')
 
 @client.event
 async def on_ready():
     print('bot is ready.')
-    #id = client.get_guild(Sid)
-    #channel=discord.utils.get(server.channels, name="general-chat")
-    #channelLink='/channels/'+Sid+'/messages';
+    authorization = {'Authorization':'Bot TOKEN'}
+    r = requests.get('https://discord.com/api/channels/Sid/messages', headers=authorization)
+    data=r.json()
     #messages = discord.utils.get(channelLink)
-    #print('messages: '+str(len(messages)))
-    #print(messages)
+    print('messages: '+str(len(data)))
+    for obj in data:
+        if obj['author']['username'] in logs:
+            logs[obj['author']['username']]+=1
+        else:
+            logs[obj['author']['username']]=1
+        #print(obj['content'])
+    with open('logger.json', 'w') as outfile:
+        json.dump(logs, outfile)
+   
 
 @client.event
-async def on_message(message):
-   
-    contains=0
-    file = open("logger.json",'r')
-    try:
-        dict=json.load(file)
-    except JSONDecodeError:
-        dict={}       
+async def on_message(message):   
     
-    
-    if str(message.author)in dict:
-        dict[str(message.author)]+=1
-        contains=1
-    if contains==0:
-        dict[str(message.author)]=1
+    if str(message.author)in logs:
+        logs[str(message.author)]+=1
+        
+    else:
+        logs[str(message.author)]=1
     with open('logger.json', 'w') as outfile:
-        json.dump( dict, outfile)
+        json.dump(logs, outfile)
     
     file.close
            
     
 
-#@client.event
-#async def
+
 
 client.run(TOKEN)
 
