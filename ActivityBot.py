@@ -16,8 +16,8 @@ from json.decoder import JSONDecodeError
 
 
 
-TOKEN = 'NzU5ODk5MzcxMzAyMTU4MzY2.X3ENcA.vKJ25upivPTtHSvr9svVwPxhpu4'
-Sid = 419600048280829982
+TOKEN = '' #add token here
+Sid = #add server id here
 
 client=commands.Bot(command_prefix = '.')
 
@@ -26,7 +26,7 @@ async def on_ready():
     print('bot is ready.')
     #id = client.get_guild(Sid)
     #channel=discord.utils.get(server.channels, name="general-chat")
-    #channelLink='/channels/'+'419600048280829985'+'/messages';
+    #channelLink='/channels/'+Sid+'/messages';
     #messages = discord.utils.get(channelLink)
     #print('messages: '+str(len(messages)))
     #print(messages)
